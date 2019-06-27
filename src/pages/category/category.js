@@ -48,10 +48,6 @@ new Vue({
             })
         }
     },
-    filters:{
-        priceFormat(price){
-           return parseFloat(price).toFixed(2)
-        }
-    }
+   
 
 })
