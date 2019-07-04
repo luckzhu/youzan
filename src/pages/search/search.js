@@ -5,6 +5,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import url from 'js/api.js'
 import mixin from 'js/mixin.js'
+import Velocity from 'velocity-animate'
 
 
 new Vue({
@@ -24,7 +25,7 @@ new Vue({
         },
         showGotop() {
             console.log(document.body.scrollTop )
-            var scrollTop = document.body.scrollTop ||document.documentElement.scrollTop
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop
             if ( scrollTop > 300) {
                 this.isShowGoTop = true
             } else {
@@ -32,7 +33,8 @@ new Vue({
             }
         },
         goTop() {
-            scrollTop = 0
+            Velocity(document.documentElement, 'scroll',{duration: 800}) 
+            this.isShowGoTop = false   
         }
 
     },

@@ -4,13 +4,15 @@ let url = {
     topList: 'category/topList',
     rank: 'category/rank',
     subList: 'category/subList',
-    searchList: 'search/list'
+    searchList: 'search/list',
+    goodsDetails: 'goods/details',
+    goodsDeals: 'goods/deal'
 }
 
 //开发环境和真实环境的切换
 //let host = ''
 //现在用的是开发环境mock的接口数据
-let host = 'http://rap2api.taobao.org/app/mock/222071/'
+let host = 'http://rap2api.taobao.org/app/mock/7058/'
 
 //把所有的url前面都加上host
 for (let key in url) {

@@ -73,7 +73,7 @@
                   <ul>
                     <li class="goods-item" v-for="good in rankData.hotGoods">
                       <a
-                        href="https://h5.youzan.com/v2/showcase/goods?alias=27cjv5wdsb4to&amp;source=yzapp&amp;f_platform=yzapp">
+                      :href="'goods.html?id='+good.id">
                         <div class="thumb badge center-img">
                           <img :src="good.img">
                           <span class="num">{{good.id}}</span>
