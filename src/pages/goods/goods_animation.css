@@ -1,0 +1,24 @@
+.fade-enter-active,
+.fade-leave-active {
+  transition: none 0.4s ease;
+  opacity: 1;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.skuFade-enter-active,
+.skuFade-leave-active {
+  transform: translateY(0);
+  transition: all 500ms ease;
+  opacity: 1;
+}
+
+.skuFade-enter,
+.skuFade-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+  
+}
