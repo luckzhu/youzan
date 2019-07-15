@@ -13,12 +13,16 @@
   <link rel="shortcut icon" href="https://b.yzcdn.cn/v2/image/yz_fc.ico">
   <title>商品详情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+  <style>
+    [v-cloak] {
+      display: none
+    }
+  </style>
 </head>
 
 <body class=" body-fixed-bottom
             default-theme">
-  <div id="app">
+  <div id="app" v-cloak>
     <div class="container wap-goods internal-purchase" style="min-height: 617px;" v-if="goodsDetails">
       <div class="content no-sidebar">
         <div class="content-body">
@@ -158,7 +162,7 @@
         </div> -->
           <div id="right-icon" class="js-right-icon " v-show="addCartSuccess">
             <div class="js-right-icon-container right-icon-container clearfix">
-              <a id="global-cart" href="https://h5.youzan.com/v2/trade/cart?kdt_id=16546132" class="icon new s0"
+              <a id="global-cart" :href="'cart.html?id:'+id" class="icon new s0"
                 style="">
                 <p class="icon-img"></p>
                 <p class="icon-txt">购物车</p>

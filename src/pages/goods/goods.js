@@ -27,6 +27,7 @@ let buttons = [
 new Vue({
     el: '#app',
     data: {
+        id,
         goodsDetails: null,
         bannerList: [],
         buttons: buttons,
