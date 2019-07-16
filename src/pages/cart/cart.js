@@ -6,7 +6,8 @@ import Vue from 'vue'
 import axios from 'axios'
 import mixin from 'js/mixin.js'
 import url from 'js/api.js'
-
+import Velocity from 'velocity-animate'
+import Cart from 'js/cartService.js'
 
 import { MessageBox } from 'mint-ui';
 
@@ -147,21 +148,27 @@ new Vue({
 
         },
         plusGoods(good) {
-            axios.post(url.addCart, {
-                id: good.id,
-                number: 1
-            }).then(res => {
+            Cart.add(good.id).then(res=>{
                 good.number++
             })
+            // axios.post(url.addCart, {
+            //     id: good.id,
+            //     number: 1
+            // }).then(res => {
+            //     good.number++
+            // })
         },
         minusGoods(good) {
             if (good.number === 1) return
-            axios.post(url.reduceCart, {
-                id: good.id,
-                number: 1
-            }).then(res => {
+            Cart.reduce(good.id).then(res=>{
                 good.number--
             })
+            // axios.post(url.reduceCart, {
+            //     id: good.id,
+            //     number: 1
+            // }).then(res => {
+            //     good.number--
+            // })
         },
         removeGood(shop, shopIndex, good, goodIndex) {
             MessageBox.confirm('确定删除此商品吗?').then(action => {
@@ -182,6 +189,22 @@ new Vue({
             this.lists.forEach((shop) => {
                 shop.editing = false
                 shop.editingMsg = '编辑'
+            })
+        },
+        start(e, good) {
+            good.startX = e.changedTouches[0].clientX
+        },
+        end(e, shopIndex, good, goodIndex) {
+            let endX = e.changedTouches[0].clientX
+            let left = '0'
+            if (good.startX - endX > 100) {
+                left = '-60px'
+            } else if (endX - good.startX > 100 || !goodIndex) {
+                left = '0px'
+            }
+
+            Velocity(this.$refs[`goods-${shopIndex}-${goodIndex}`], {
+                left
             })
         }
     },
