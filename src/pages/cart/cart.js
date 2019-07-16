@@ -8,6 +8,10 @@ import mixin from 'js/mixin.js'
 import url from 'js/api.js'
 
 
+import { MessageBox } from 'mint-ui';
+
+
+
 new Vue({
     el: '.container',
     data: {
@@ -136,27 +140,48 @@ new Vue({
                 this.editShop = shop
                 this.editShopIndex = shopIndex
             }
-            else{
+            else {
                 this.editShop = null
                 this.editShopIndex = -1
             }
 
         },
-        plusGoods(good){
-            axios.post(url.addCart,{
-                id:good.id,
+        plusGoods(good) {
+            axios.post(url.addCart, {
+                id: good.id,
                 number: 1
-            }).then(res=>{
+            }).then(res => {
                 good.number++
             })
         },
-        minusGoods(good){
-            if(good.number===1) return
-            axios.post(url.removeCart,{
+        minusGoods(good) {
+            if (good.number === 1) return
+            axios.post(url.reduceCart, {
                 id: good.id,
                 number: 1
-            }).then(res=>{
+            }).then(res => {
                 good.number--
+            })
+        },
+        removeGood(shop, shopIndex, good, goodIndex) {
+            MessageBox.confirm('确定删除此商品吗?').then(action => {
+                axios.post(url.removeCart, {
+                    id: good.id
+                }).then(res => {
+                    shop.goodsList.splice(goodIndex, 1)
+                    if (!shop.goodsList.length) {
+                        this.lists.splice(shopIndex, 1)
+                        this.removeShop()
+                    }
+                })
+            })
+        },
+        removeShop() {
+            this.editShop = null
+            this.editShopIndex = -1
+            this.lists.forEach((shop) => {
+                shop.editing = false
+                shop.editingMsg = '编辑'
             })
         }
     },

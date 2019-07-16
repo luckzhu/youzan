@@ -35,8 +35,6 @@
                 <span class="check" @click="changeShop(shop)"
                   :class="{checked: editShop? shop.removeChecked : shop.checked}"></span>
               </div>
-
-
               <a class="shop-title"><i class="custom-store-img">店铺：</i>{{shop.shopTitle}}</a>
               <a href="javascript:;" data-type="cart" @click="edit(shop,shopIndex)"
                 class="j-edit-list pull-right c-blue font-size-12 edit-list">
@@ -91,7 +89,7 @@
                       <div class="error-box"></div>
                     </div>
 
-                    <div class="delete-btn"><span>删除</span></div>
+                    <div class="delete-btn" @click="removeGood(shop,shopIndex,good,goodIndex)"><span>删除</span></div>
                   </div>
                 </li>
               </ul>
@@ -171,6 +169,10 @@
     </div>
   </div>
   </div>
+
+
+
+
   <div class="footer" style="min-height: 86px;">
     <div class="copyright">
       <div class="ft-copyright "
