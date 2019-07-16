@@ -48,6 +48,7 @@
                 <li class="block-item block-item-cart" v-for="(good,goodIndex) in shop.goodsList"
                   :class="{editing: shop.editing}"
                   :ref="'goods-'+shopIndex+'-'+goodIndex"
+                  :key="good.id"
                   @touchstart="start($event,good)"
                   @touchend="end($event,shopIndex,good,goodIndex)"
                   >
@@ -165,7 +166,7 @@
             </button>
             <!-- 编辑状态 -->
             <button href="javascript:;" :disabled="!removedList.length" class="j-delete-goods btn font-size-14 btn-red"
-              v-show="editShop">删除
+              v-show="editShop" @click="morReduce()">删除
             </button>
           </div>
         </div>

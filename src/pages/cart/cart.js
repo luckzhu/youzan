@@ -12,7 +12,6 @@ import Cart from 'js/cartService.js'
 import { MessageBox } from 'mint-ui';
 
 
-
 new Vue({
     el: '.container',
     data: {
@@ -148,7 +147,7 @@ new Vue({
 
         },
         plusGoods(good) {
-            Cart.add(good.id).then(res=>{
+            Cart.add(good.id).then(res => {
                 good.number++
             })
             // axios.post(url.addCart, {
@@ -160,7 +159,7 @@ new Vue({
         },
         minusGoods(good) {
             if (good.number === 1) return
-            Cart.reduce(good.id).then(res=>{
+            Cart.reduce(good.id).then(res => {
                 good.number--
             })
             // axios.post(url.reduceCart, {
@@ -176,10 +175,13 @@ new Vue({
                     id: good.id
                 }).then(res => {
                     shop.goodsList.splice(goodIndex, 1)
+
                     if (!shop.goodsList.length) {
                         this.lists.splice(shopIndex, 1)
                         this.removeShop()
                     }
+                    // 可解决右划删除的bug，现在用key
+                    // this.$refs[`goods-${shopIndex}-${goodIndex}`][0].style.left='0px'
                 })
             })
         },
@@ -191,6 +193,34 @@ new Vue({
                 shop.editingMsg = '编辑'
             })
         },
+        morReduce() {
+            MessageBox.confirm(`确认删除这${this.removedList.length}件商品吗？`).then(action => {
+
+                let ids = []
+                this.removedList.forEach(i => {
+                    ids.push(i.id)
+                });
+                axios.post(url.moreRemove, {
+                    ids
+                }).then(res => {
+                    let arr = []
+                    this.editShop.goodsList.forEach(good => {
+                        let index = this.removedList.findIndex(item => {
+                            return item.id = good.id
+                        })
+                        if (index === -1) {
+                            arr.push(good)
+                        }
+                    })
+                    if (arr.length) {
+                        this.editShop.goodsList = arr
+                    } else {
+                        this.lists.splice(this.editShopIndex, 1)
+                        this.removeShop()
+                    }
+                })
+            })
+        },
         start(e, good) {
             good.startX = e.changedTouches[0].clientX
         },
@@ -199,7 +229,7 @@ new Vue({
             let left = '0'
             if (good.startX - endX > 100) {
                 left = '-60px'
-            } else if (endX - good.startX > 100 || !goodIndex) {
+            } else if (endX - good.startX > 100 ) {
                 left = '0px'
             }
 
