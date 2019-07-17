@@ -14,19 +14,22 @@ const store = new Vuex.Store({
     state: {
         lists: null
     },
-    //修改state中的数据，同步的
+    //用于修改state中的数据，同步的
     mutations: {
-        init(state, lists) {
+        init(state,lists){
             state.lists = lists
         }
     },
     //当需要异步时，用来触发mutations
     actions: {
-        getLists({ commit }) {
-            Address.lists().then(res => {
-                commit('init', res.data.lists)
+        getList({commit}){
+            Address.lists().then(res=>{
+                commit('init',res.data.lists)
             })
         }
-    })
+    }
+})
 
 export default store
+
+
