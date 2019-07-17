@@ -29,17 +29,24 @@
 
 
 <script>
-import Address from "js/addrService.js";
+// import Address from "js/addrService.js";
+
 export default {
-  data() {
-    return {
-      lists: null
-    };
+  // data() {
+  //   return {
+  //     lists: null
+  //   };
+  // },
+  computed: {
+    lists(){
+      return this.$store.state.lists
+    }
   },
   created() {
-    Address.lists().then(res => {
-      this.lists = res.data.lists;
-    });
+    this.$store.dispatch('getList')
+    // Address.lists().then(res => {
+    //   this.lists = res.data.lists;
+    // });
   },
   methods: {
     updateAddr(list) {
