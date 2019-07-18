@@ -29,11 +29,15 @@ const store = new Vuex.Store({
             state.lists.splice(index, 1)
         },
         update(state, instance) {
+            //深复制，为了watch能监听到update的变化
+            let lists = JSON.parse(JSON.stringify(state.lists))
             let { id } = instance
-            let index = state.lists.findIndex(item => {
+            let index = lists.findIndex(item => {
                 return item.id = id
             })
-            state.lists[index] = instance
+            lists[index] = instance
+            //还原
+            state.lists = lists
         },
         setDefault(state, id) {
             state.lists.forEach(item => {
@@ -64,8 +68,8 @@ const store = new Vuex.Store({
                 commit('update', instance)
             })
         },
-        setDefaultAction({commit}, id) {
-            axios.post(url.setDefaultAddress, id).then(res=>{
+        setDefaultAction({ commit }, id) {
+            axios.post(url.setDefaultAddress, id).then(res => {
                 commit('setDefault', id)
             })
         }

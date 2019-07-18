@@ -82,6 +82,7 @@ export default {
     };
   },
   computed: {
+    //可以用mapState辅助函数简写
     lists() {
       return this.$store.state.lists;
     }
