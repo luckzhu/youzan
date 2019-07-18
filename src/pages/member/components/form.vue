@@ -50,8 +50,12 @@
     >
       <div class="block-item c-red center">删除</div>
     </div>
-    <div class="block stick-bottom-row center js-save-default" v-show="type==='edit'" @click="setDefault">
-      <button class="btn btn-standard js-save-default-btn" >设为默认收货地址</button>
+    <div
+      class="block stick-bottom-row center js-save-default"
+      v-show="type==='edit'"
+      @click="setDefault"
+    >
+      <button class="btn btn-standard js-save-default-btn">设为默认收货地址</button>
     </div>
   </div>
 </template>
@@ -78,8 +82,8 @@ export default {
     };
   },
   computed: {
-    lists(){
-      return this.$store.state.lists
+    lists() {
+      return this.$store.state.lists;
     }
   },
   created() {
@@ -117,26 +121,29 @@ export default {
       };
       if (this.type === "add") {
         //模拟ID,实际上应由后台返回
-        data.id= parseInt(Math.random()*1000)
-        this.$store.dispatch('addAction',data)
+        data.id = parseInt(Math.random() * 1000);
+        this.$store.dispatch("addAction", data);
       }
       if (this.type === "edit") {
-        data.id = this.id
-        this.$store.dispatch('updateAction',data)
+        data.id = this.id;
+        this.$store.dispatch("updateAction", data);
       }
     },
     removeAddr() {
       if (window.confirm("确认要删除吗？")) {
-       this.$store.dispatch('removeAction',this.id)
+        this.$store.dispatch("removeAction", this.id);
       }
     },
-    setDefault(){
-      this.$store.dispatch('setDefaultAction',this.id)
+    setDefault() {
+      this.$store.dispatch("setDefaultAction", this.id);
     }
   },
   watch: {
-    lists(){
-      this.$router.go(-1)
+    lists: {
+      handler() {
+        this.$router.go(-1);
+      },
+      deep: true
     },
     provinceValue(val) {
       if (val === -1) return;
