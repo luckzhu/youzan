@@ -38,21 +38,29 @@ export default {
   //   };
   // },
   computed: {
-    lists(){
-      return this.$store.state.lists
+    lists() {
+      return this.$store.state.lists;
     }
   },
   created() {
-    this.$store.dispatch('getList')
+    //if判断：不重复的拉取数据
+    if (!this.lists) {
+      this.$store.dispatch("getList");
+    }
+
     // Address.lists().then(res => {
     //   this.lists = res.data.lists;
     // });
   },
   methods: {
     updateAddr(list) {
-      this.$router.push({name: 'form' , query:{
-        type: 'edit', instance: list
-      }});
+      this.$router.push({
+        name: "form",
+        query: {
+          type: "edit",
+          instance: list
+        }
+      });
     }
   }
 };

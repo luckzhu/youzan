@@ -16,17 +16,60 @@ const store = new Vuex.Store({
     },
     //用于修改state中的数据，同步的
     mutations: {
-        init(state,lists){
+        init(state, lists) {
             state.lists = lists
+        },
+        add(state, instance) {
+            state.lists.push(instance)
+        },
+        remove(state, id) {
+            let index = state.lists.findIndex(item => {
+                return item.id = id
+            })
+            state.lists.splice(index, 1)
+        },
+        update(state, instance) {
+            let { id } = instance
+            let index = state.lists.findIndex(item => {
+                return item.id = id
+            })
+            state.lists[index] = instance
+        },
+        setDefault(state, id) {
+            state.lists.forEach(item => {
+                item.isDefault = (item.id === id) ? true : false
+            });
         }
+
     },
     //当需要异步时，用来触发mutations
     actions: {
-        getList({commit}){
-            Address.lists().then(res=>{
-                commit('init',res.data.lists)
+        getList({ commit }) {
+            Address.lists().then(res => {
+                commit('init', res.data.lists)
+            })
+        },
+        addAction({ commit }, instance) {
+            axios.post(url.addAddress, instance).then(res => {
+                commit('add', instance)
+            })
+        },
+        removeAction({ commit }, id) {
+            axios.post(url.removeAddress, id).then(res => {
+                commit('remove', id)
+            })
+        },
+        updateAction({ commit }, instance) {
+            axios.post(url.updateAddress, instance).then(res => {
+                commit('update', instance)
+            })
+        },
+        setDefaultAction({commit}, id) {
+            axios.post(url.setDefaultAddress, id).then(res=>{
+                commit('setDefault', id)
             })
         }
+
     }
 })
 

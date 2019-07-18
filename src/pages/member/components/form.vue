@@ -50,8 +50,8 @@
     >
       <div class="block-item c-red center">删除</div>
     </div>
-    <div class="block stick-bottom-row center js-save-default" v-show="type==='edit'">
-      <button class="btn btn-standard js-save-default-btn">设为默认收货地址</button>
+    <div class="block stick-bottom-row center js-save-default" v-show="type==='edit'" @click="setDefault">
+      <button class="btn btn-standard js-save-default-btn" >设为默认收货地址</button>
     </div>
   </div>
 </template>
@@ -76,6 +76,11 @@ export default {
       cityLists: null,
       districtLists: null
     };
+  },
+  computed: {
+    lists(){
+      return this.$store.state.lists
+    }
   },
   created() {
     let query = this.$route.query;
@@ -111,27 +116,28 @@ export default {
         districtValue
       };
       if (this.type === "add") {
-        axios.post(url.addAddress, data).then(res => {
-          console.log(res);
-          this.$router.go(-1);
-        });
+        //模拟ID,实际上应由后台返回
+        data.id= parseInt(Math.random()*1000)
+        this.$store.dispatch('addAction',data)
       }
       if (this.type === "edit") {
-        axios.post(url.updateAddress, data).then(res => {
-          console.log(res);
-          this.$router.go(-1);
-        });
+        data.id = this.id
+        this.$store.dispatch('updateAction',data)
       }
     },
     removeAddr() {
       if (window.confirm("确认要删除吗？")) {
-        axios.post(url.removeAddress, this.id).then(res => {
-          this.$router.go(-1);
-        });
+       this.$store.dispatch('removeAction',this.id)
       }
+    },
+    setDefault(){
+      this.$store.dispatch('setDefaultAction',this.id)
     }
   },
   watch: {
+    lists(){
+      this.$router.go(-1)
+    },
     provinceValue(val) {
       if (val === -1) return;
       let list = this.addressData.list;
